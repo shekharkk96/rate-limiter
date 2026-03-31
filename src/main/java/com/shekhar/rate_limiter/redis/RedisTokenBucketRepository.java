@@ -10,10 +10,6 @@ public class RedisTokenBucketRepository {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public RedisTokenBucketRepository(RedisTemplate<String, Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
-
     public synchronized boolean consumeToken(String apiKey, int capacity, int refillRatePerSec){
         String tokenKey = "bucket:" + apiKey + ":tokens";
         String timestampKey = "bucket:" + apiKey + ":ts";
