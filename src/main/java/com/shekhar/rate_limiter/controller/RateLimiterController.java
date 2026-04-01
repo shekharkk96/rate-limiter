@@ -1,5 +1,6 @@
 package com.shekhar.rate_limiter.controller;
 
+import com.shekhar.rate_limiter.model.RateLimiterResponse;
 import com.shekhar.rate_limiter.service.RateLimiterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,5 +16,12 @@ public class RateLimiterController {
     @GetMapping("api/data")
     public ResponseEntity<?> getData(@RequestHeader("X-API-KEY") String spiKey) {
 
+        RateLimiterResponse response = rateLimiterService.allowRequest(spiKey);
+
+        if(response.isAllowed()){
+            return ResponseEntity.ok("Success");
+        } else {
+            return ResponseEntity.status(429).body(response.getMessage());
+        }
     }
 }
